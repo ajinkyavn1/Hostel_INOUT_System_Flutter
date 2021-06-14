@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 class HomePage extends StatefulWidget {
+
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final _from=GlobalKey<FormState>();
-  final _auth=FirebaseAuth.instance;
   var email;
   var password;
+
+  FirebaseUser get user => null;
+
+@override
+  void initState()async {
+    // TODO: implement initState
+ final user=await FirebaseAuth.instance.currentUser();
+  }
   @override
   Widget build(BuildContext context) {
+  FirebaseUser User=user;
     return Scaffold(
       backgroundColor: Colors.deepPurple,
-      appBar: AppBar(title: Text("Home Page"),centerTitle: true,),
+      appBar: AppBar(title: Text("Home Page${User.uid}"),centerTitle: true,),
       body: SingleChildScrollView(
         child: Center(
 
@@ -22,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset("assets/background/authlogo.jpg"),
+              Text("jasgsj")
 
                    ],
       ),
