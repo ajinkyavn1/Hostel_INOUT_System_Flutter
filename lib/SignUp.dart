@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -10,6 +11,7 @@ class SignUPPage extends StatefulWidget {
 
 class _SignUPPageState extends State<SignUPPage> {
   final _from=GlobalKey<FormState>();
+  final app=FirebaseApp.instance;
   final _realtime=FirebaseDatabase.instance.reference();
   var email;
   var password;
@@ -114,7 +116,8 @@ class _SignUPPageState extends State<SignUPPage> {
                                     FirebaseAuth.instance.createUserWithEmailAndPassword(
                                     email: email, password: password)
                                         .then((signedInUser){
-                                    _realtime.child("Hostel").set({'email' : email, 'pass' : password,})
+                                             final user=FirebaseAuth.instance.currentUser();
+                                            _realtime.child("Hostel").child("Users").set({'email' : email, 'pass' : password,'UID':user.uid})
                                         .then((value){
                                     if (signedInUser!= null){
                                               Navigator.push(context, MaterialPageRoute(builder: (v)=>HomePage()));
