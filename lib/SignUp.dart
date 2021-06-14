@@ -129,7 +129,7 @@ class _SignUPPageState extends State<SignUPPage> {
                                                _realtime.child("Hostel").child("Users").child(user.uid).set({'email' : email, 'pass' : password,'RoomNo':RoomNo,'Mobail':mobail,'status':'IN'
 
                                                });
-                                              Navigator.push(context, MaterialPageRoute(builder: (v)=>HomePage()));
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
                                             }
 
                             },
