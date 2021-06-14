@@ -117,7 +117,7 @@ class _SignUPPageState extends State<SignUPPage> {
                                     email: email, password: password)
                                         .then((signedInUser){
                                              final user=FirebaseAuth.instance.currentUser();
-                                            _realtime.child("Hostel").child("Users").set({'email' : email, 'pass' : password,'UID':user.uid})
+                                            _realtime.child("Hostel").child(user.uid).set({'email' : email, 'pass' : password,})
                                         .then((value){
                                     if (signedInUser!= null){
                                               Navigator.push(context, MaterialPageRoute(builder: (v)=>HomePage()));
