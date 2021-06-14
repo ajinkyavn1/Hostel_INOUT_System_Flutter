@@ -10,7 +10,7 @@ class SignUPPage extends StatefulWidget {
 
 class _SignUPPageState extends State<SignUPPage> {
   final _from=GlobalKey<FormState>();
-  final _realtime=Firestore.instance;
+  final _realtime=FirebaseDatabase.instance.reference();
   var email;
   var password;
   @override
@@ -114,8 +114,7 @@ class _SignUPPageState extends State<SignUPPage> {
                                     FirebaseAuth.instance.createUserWithEmailAndPassword(
                                     email: email, password: password)
                                         .then((signedInUser){
-                                    _Firestore.collection('Users')
-                                        .add({'email' : email, 'pass' : password,})
+                                    _realtime.child("Hostel").set({'email' : email, 'pass' : password,})
                                         .then((value){
                                     if (signedInUser!= null){
                                               Navigator.push(context, MaterialPageRoute(builder: (v)=>HomePage()));
