@@ -108,13 +108,7 @@ var password;
                 ),
               ),
              ),
-              SizedBox(height:10,),
-             GoogleSignInButton(
-               onPressed: (){
-               },
-
-             ),
-              SizedBox(height:50,)
+              // SizedBox(height:10,),
             ],
           ),
 
