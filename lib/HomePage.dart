@@ -26,15 +26,11 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              TextFormField(
-                onChanged: (value){
-                  status=value;
-                },
-                decoration: InputDecoration(
-                  labelText: "Status",
-                  border:OutlineInputBorder(),
-                ),
-              )
+
+              FloatingActionButton(onPressed: ()async{
+                final user=await FirebaseAuth.instance.currentUser();
+                FirebaseDatabase.instance.reference().child("Hostel").child("Users").child(user.uid).update({'status': 'status'});
+              })
 
                    ],
       ),
