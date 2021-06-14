@@ -15,6 +15,8 @@ class _SignUPPageState extends State<SignUPPage> {
   final _realtime=FirebaseDatabase.instance.reference();
   var email;
   var password;
+  var mobail;
+  var RoomNo;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,14 +71,17 @@ class _SignUPPageState extends State<SignUPPage> {
                             labelText: "Password",
                             border:OutlineInputBorder(),
                           ),
-                          validator: (value){
+                          validator:
+                              (value){
 
                           },
                         ),
 
                         SizedBox(height: 15,),
                         TextFormField(
-                          obscureText: true,
+                         onChanged: (value){
+                           mobail=value;
+                         },
                           style: TextStyle(fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
 
@@ -93,7 +98,9 @@ class _SignUPPageState extends State<SignUPPage> {
                         ),
                         SizedBox(height: 15,),
                         TextFormField(
-                          obscureText: true,
+                          onChanged: (value){
+                            RoomNo=value;
+                          },
                           style: TextStyle(fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
 
@@ -110,27 +117,20 @@ class _SignUPPageState extends State<SignUPPage> {
                         ),
                         SizedBox(height: 15,),
                         ElevatedButton(
-                            onPressed: (){
+                            onPressed: ()async{
 
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Registering....")));
-                                    FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                    email: email, password: password)
-                                        .then((signedInUser){
-                                             final user=FirebaseAuth.instance.currentUser();
-                                            _realtime.child("Hostel").child(user.uid).set({'email' : email, 'pass' : password,})
-                                        .then((value){
+                                final signedInUser =await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                    email: email, password: password);
+
+
                                     if (signedInUser!= null){
+                                            final user=await FirebaseAuth.instance.currentUser();
+                                               _realtime.child("Hostel").child("Users").child(user.uid).set({'email' : email, 'pass' : password,'RoomNo':RoomNo,'Mobail':mobail,'status':'IN'
+
+                                               });
                                               Navigator.push(context, MaterialPageRoute(builder: (v)=>HomePage()));
                                             }
-                                    })
-                                        .catchError((e){
-                                      print(e);
-                                    })
-                                    ;}
-                                    )
-                                        .catchError((e){
-                                      print(e);
-                                    });
 
                             },
                             child:Text("Register")
