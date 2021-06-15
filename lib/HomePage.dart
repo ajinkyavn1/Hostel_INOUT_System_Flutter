@@ -10,22 +10,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var email;
-  var password;
+  var status;
 
-  FirebaseUser get user => null;
 
-@override
-  void initState()async {
-    // TODO: implement initState
- final user=await FirebaseAuth.instance.currentUser();
-  }
   @override
   Widget build(BuildContext context) {
-  FirebaseUser User=user;
     return Scaffold(
       backgroundColor: Colors.deepPurple,
-      appBar: AppBar(title: Text("Home Page${User.uid}"),centerTitle: true,),
+      appBar: AppBar(title: Text("Home Page"),centerTitle: true,),
       body: SingleChildScrollView(
         child: Center(
 
@@ -33,7 +25,12 @@ class _HomePageState extends State<HomePage> {
 
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("jasgsj")
+
+
+              FloatingActionButton(onPressed: ()async{
+                final user=await FirebaseAuth.instance.currentUser();
+                FirebaseDatabase.instance.reference().child("Hostel").child("Users").child(user.uid).update({'status': 'status'});
+              })
 
                    ],
       ),
@@ -41,4 +38,5 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 }
