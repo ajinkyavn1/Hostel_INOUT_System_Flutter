@@ -1,3 +1,3 @@
-class Brain{
+class Brain {
 
 }
