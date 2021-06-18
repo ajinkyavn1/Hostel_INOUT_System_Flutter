@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_demo/Admin_Login.dart';
 import 'package:flutter_firebase_demo/HomePage.dart';
@@ -21,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
 final _from=GlobalKey<FormState>();
 var email;
 var password;
+
+  Map userData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,8 +105,11 @@ var password;
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(content: Text('Signing In')));
                                  _auth.signInWithEmailAndPassword(email: email, password: password).then((SignInUser) async {
-
-                                   save(email,"Logedin");
+                                   final user=await _auth.currentUser();
+                                   FirebaseDatabase.instance.reference().child("Hostel").child("Users").child(user.uid).once().then((DataSnapshot data){
+                                     userData=data.value;
+                                   });
+                                   await save(userData);
                                    Navigator.pop(context);
                                    Navigator.push(context, MaterialPageRoute(builder:(context)=>HomePage()));
                                  });
@@ -134,9 +140,10 @@ var password;
     );
   }
 
-  void save(String email,String e) async {
+  void save(Map user) async {
     await MyApp.init();
-    Brain.localStorage.setString('email', email);
-    Brain.localStorage.setString('islogedin', e);
+    print(user['status']);
+    Brain.localStorage.setString('email',user['email']);
+    Brain.localStorage.setString('status',user['status']);
   }
 }

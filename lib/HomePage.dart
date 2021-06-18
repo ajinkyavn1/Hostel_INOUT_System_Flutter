@@ -17,6 +17,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String uuid;
+  var inside="Inside The Hostel";
+  var outside=" Outside The Hostel";
   String result = "Hey Welcome To GPJ";
     //  FirebaseUser user;
 
@@ -70,13 +72,27 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.logout),)
         ],
       ),
-      body: Row(
-        children: [
-          Text(
-            result,
-            style: new TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Curruntly YOU Are \n${Brain.localStorage.get('status')=="IN"?inside:outside}",
+              style: new TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Image.network("http://gpjalgaon.org.in/images/logo.png"),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              result,
+              style: new TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.camera_alt),
