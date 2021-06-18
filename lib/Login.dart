@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_demo/HomePage.dart';
 import 'package:flutter_firebase_demo/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_demo/StudentRecord.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+
+import 'brain.dart';
+import 'main.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,6 +24,14 @@ var password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder:(context)=>StudentRecord()));
+        },
+        label: Text("ADMIN LOGIN"),
+        icon: Icon(Icons.login),
+      ),
       backgroundColor: Colors.deepPurple,
       appBar: AppBar(title: Text("LoginPage"),centerTitle: true,),
       body: SingleChildScrollView(
@@ -88,7 +100,10 @@ var password;
                               if((_from.currentState.validate())){
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(content: Text('Signing In')));
-                                 _auth.signInWithEmailAndPassword(email: email, password: password).then((SignInUser){
+                                 _auth.signInWithEmailAndPassword(email: email, password: password).then((SignInUser) async {
+
+                                   save(email,"Logedin");
+                                   Navigator.pop(context);
                                    Navigator.push(context, MaterialPageRoute(builder:(context)=>HomePage()));
                                  });
 
@@ -116,5 +131,11 @@ var password;
       ),
 
     );
+  }
+
+  void save(String email,String e) async {
+    await MyApp.init();
+    Brain.localStorage.setString('email', email);
+    Brain.localStorage.setString('islogedin', e);
   }
 }
