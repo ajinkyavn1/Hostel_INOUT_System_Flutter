@@ -28,164 +28,175 @@ class _StudentRecordState extends State<StudentRecord> {
 
   Widget _buildContactItem({Map User}) {
     Color typeColor = Colors.red;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.all(10),
-      height: 130,
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Card(
+      elevation: 15,
+        shadowColor: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15)
+        ),
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          padding: EdgeInsets.all(10),
+          height: 150,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.person,
-                color: Theme.of(context).primaryColor,
-                size: 20,
-              ),
-              SizedBox(
-                width: 6,
-              ),
-              Text(
-                User['RoomNo'],
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.phone_iphone,
-                color: Theme.of(context).accentColor,
-                size: 20,
-              ),
-              SizedBox(
-                width: 6,
-              ),
-              Text(
-                User['Mobail'],
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).accentColor,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(width: 15),
-              Icon(
-                Icons.group_work,
-                color: typeColor,
-                size: 20,
-              ),
-              SizedBox(
-                width: 6,
-              ),
-              Text(
-                User['email'],
-                style: TextStyle(
-                    fontSize: 16,
-                    color: typeColor,
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap: () {
+            Row(
+              children: [
+                Icon(
+                  Icons.person,
+                  color: Colors.deepPurple,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 6,
+                ),
+                Text(
+                  User['Name'],
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.phone_iphone,
+                  color: Colors.black,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 6,
+                ),
+                Text(
+                  User['Mobail'],
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(width: 15),
+                Icon(
+                  Icons.home,
+                  color: Colors.green,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 6,
+                ),
+                Text(
+                  User['RoomNo'],
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.bookmark,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                          User['status'],
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: User['status']=="IN"?Theme.of(context).primaryColor:Colors.red,
+                              fontWeight: FontWeight.w600)),
 
-                },
-                child: Row(
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Row(
                   children: [
                     Icon(
-                      Icons.edit,
-                      color: Theme.of(context).primaryColor,
+                      Icons.home_repair_service_outlined,
+                      color: Colors.black,
                     ),
                     SizedBox(
                       width: 6,
                     ),
-                    Text('Edit',
+                    Text(
+                      User['Branch'],
                         style: TextStyle(
                             fontSize: 16,
-                            color: Theme.of(context).primaryColor,
+                            color: Colors.black,
                             fontWeight: FontWeight.w600)),
                   ],
                 ),
+
+                SizedBox(
+                  width: 20,
+                ),
+              ],
+            ),
+              SizedBox(
+                width: 20,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.home_repair_service_outlined,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Text(
+                      User['email'],
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600)),
+                ],
               ),
               SizedBox(
                 width: 20,
               ),
-              GestureDetector(
-                onTap: () {
-                  _showDeleteDialog(contact: User);
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.delete,
-                      color: Colors.red[700],
-                    ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    Text('Delete',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.red[700],
-                            fontWeight: FontWeight.w600)),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          )
-        ],
+          ],
+        ),
       ),
     );
-  }
-
-  _showDeleteDialog({Map contact}) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Delete ${contact['name']}'),
-            content: Text('Are you sure you want to delete?'),
-            actions: [
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Cancel')),
-              FlatButton(
-                  onPressed: () {
-                    reference
-                        .child(contact['key'])
-                        .remove()
-                        .whenComplete(() => Navigator.pop(context));
-                  },
-                  child: Text('Delete'))
-            ],
-          );
-        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Contacts'),
+        title: Text('Student Record'),
+        actions: [
+          IconButton(
+            onPressed:() {
+              FirebaseAuth.instance.signOut();
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (builder)=>LoginPage()));
+            },
+            icon: Icon(Icons.logout),)
+        ],
       ),
       body: Container(
         height: double.infinity,
@@ -201,32 +212,13 @@ class _StudentRecordState extends State<StudentRecord> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (_) {
-          //     return AddContacts();
-          //   }),
-          // );
+          setState(() {
+
+          });
         },
-        child: Icon(Icons.add, color: Colors.white),
+        child: Icon(Icons.refresh, color: Colors.white),
       ),
     );
   }
 
-  Color getTypeColor(String type) {
-    Color color = Theme.of(context).accentColor;
-
-    if (type == 'Work') {
-      color = Colors.brown;
-    }
-
-    if (type == 'Family') {
-      color = Colors.green;
-    }
-
-    if (type == 'Friends') {
-      color = Colors.teal;
-    }
-    return color;
-  }
 }

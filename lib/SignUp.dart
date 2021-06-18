@@ -23,6 +23,8 @@ class _SignUPPageState extends State<SignUPPage> {
 
   var name;
 
+  var Branch;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +86,7 @@ class _SignUPPageState extends State<SignUPPage> {
                             labelText: "Email",
                             border: OutlineInputBorder(),
                           ),
+                          keyboardType: TextInputType.emailAddress,
                         ),
                         SizedBox(height: 15,),
                         TextFormField(
@@ -146,6 +149,26 @@ class _SignUPPageState extends State<SignUPPage> {
                           maxLength: 3,
                         ),
                         SizedBox(height: 15,),
+                        TextFormField(
+                          onChanged: (value) {
+                            Branch = value;
+                          },
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+
+                            labelText: "Enter Branch",
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value == null && value.isEmpty) {
+                              return 'Please Branch';
+                            }
+                            else
+                              return null;
+                          },
+
+                        ),
+                        SizedBox(height: 15,),
                         ElevatedButton(
                             onPressed: () async {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -161,8 +184,8 @@ class _SignUPPageState extends State<SignUPPage> {
                                 _realtime.child("Hostel").child("Users").child(
                                     user.uid).set({
                                   'email': email,
-                                  'pass': password,
                                   'Name': name,
+                                  'Branch':Branch,
                                   'RoomNo': RoomNo,
                                   'Mobail': mobail,
                                   'status': 'IN'
