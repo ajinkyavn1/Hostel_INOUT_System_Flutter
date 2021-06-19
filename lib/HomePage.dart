@@ -76,6 +76,42 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Card(
+              elevation: 25,
+              child: Column(
+                children: [
+                  Text(
+                    "Name -:${Brain.localStorage.get('name')}",
+                    style: new TextStyle(fontSize: 20.0),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "RoomNo -:${Brain.localStorage.get('RoomNo')}",
+                    style: new TextStyle(fontSize: 20.0),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Branch -:${Brain.localStorage.get('Branch')}",
+                    style: new TextStyle(fontSize: 20.0),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Email -:${Brain.localStorage.get('email')}",
+                    style: new TextStyle(fontSize: 20.0),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+
             Text(
               "Curruntly YOU Are \n${Brain.localStorage.get('status')=="IN"?inside:outside}",
               style: new TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
@@ -120,6 +156,9 @@ class _HomePageState extends State<HomePage> {
             .update({'status': 'IN'});
         await MyApp.init();
         Brain.localStorage.setString('status', "IN");
+        setState(() {
+
+        });
       }
       if(qrResult=="OUT")
       {
@@ -134,6 +173,9 @@ class _HomePageState extends State<HomePage> {
             .update({'status': 'OUT'});
         await MyApp.init();
         Brain.localStorage.setString('status', "OUT");
+        setState(() {
+
+        });
       }
     }
   }

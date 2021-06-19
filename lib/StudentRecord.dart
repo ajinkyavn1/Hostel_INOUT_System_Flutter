@@ -119,10 +119,10 @@ class _StudentRecordState extends State<StudentRecord> {
                         width: 6,
                       ),
                       Text(
-                          User['status'],
+                          User['status']=="IN"?"PRESENT IN HOSTEL":"ABSENT IN HOSTEL",
                           style: TextStyle(
                               fontSize: 16,
-                              color: User['status']=="IN"?Theme.of(context).primaryColor:Colors.red,
+                              color: User['status']=="IN"?Colors.green:Colors.red,
                               fontWeight: FontWeight.w600)),
 
                     ],

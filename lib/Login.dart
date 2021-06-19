@@ -144,6 +144,9 @@ var password;
     await MyApp.init();
     print(user['status']);
     Brain.localStorage.setString('email',user['email']);
+    Brain.localStorage.setString('name',user['Name']);
+    Brain.localStorage.setString('Branch',user['Branch']);
+    Brain.localStorage.setString('RoomNo',user['RoomNo']);
     Brain.localStorage.setString('status',user['status']);
   }
 }
