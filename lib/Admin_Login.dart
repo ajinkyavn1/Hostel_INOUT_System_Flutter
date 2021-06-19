@@ -25,7 +25,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurple,
-      appBar: AppBar(title: Text("LoginPage"),centerTitle: true,),
+      appBar: AppBar(title: Text("Admin LoginPage"),centerTitle: true,),
       body: SingleChildScrollView(
         reverse: true,
         child: Center(
@@ -34,7 +34,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 55,),
-              Image.asset("assets/background/authback.jpg"),
+              Image.asset("assets/logo/logo.png"),
               SizedBox(height: 25,),
               Form(
                 key: _from,
