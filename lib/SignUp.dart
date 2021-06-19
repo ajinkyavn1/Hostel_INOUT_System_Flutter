@@ -4,28 +4,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter_firebase_demo/HomePage.dart';
+import 'package:flutter_firebase_demo/main.dart';
+
+import 'brain.dart';
 class SignUPPage extends StatefulWidget {
   @override
   _SignUPPageState createState() => _SignUPPageState();
 }
 
 class _SignUPPageState extends State<SignUPPage> {
-  final _from=GlobalKey<FormState>();
-  final app=FirebaseApp.instance;
-  final _realtime=FirebaseDatabase.instance.reference();
+  final _from = GlobalKey<FormState>();
+  final app = FirebaseApp.instance;
+  final _realtime = FirebaseDatabase.instance.reference();
   var email;
   var password;
   var mobail;
   var RoomNo;
+
+  var name;
+
+  var Branch;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurple,
-      appBar: AppBar(title: Text("Signup Page"),centerTitle: true,),
+      appBar: AppBar(title: Text("Signup Page"), centerTitle: true,),
       body: SingleChildScrollView(
         reverse: true,
         child: Center(
-          child:Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -40,107 +48,163 @@ class _SignUPPageState extends State<SignUPPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("SignUp",style: TextStyle(fontSize:40,color: Colors.green,fontWeight: FontWeight.bold),),
+                        Text("SignUp", style: TextStyle(fontSize: 40,
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold),),
                         SizedBox(height: 20,),
                         TextFormField(
-                          onChanged: (value){
-                            email=value;
+                          onChanged: (value) {
+                            name = value;
                           },
                           style: TextStyle(fontWeight: FontWeight.bold),
-                          validator: (value){
-                            if(value==null && value.isEmpty)
-                            {
+                          validator: (value) {
+                            if (value == null && value.isEmpty) {
+                              return 'Please Enter Full Name ';
+                            }
+                            else
+                              return null;
+                          },
+                          decoration: InputDecoration(
+                            labelText: "Full Name",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        TextFormField(
+                          onChanged: (value) {
+                            email = value;
+                          },
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          validator: (value) {
+                            if (value == null && value.isEmpty) {
                               return 'Please Enter Email';
                             }
-                            else return null;
+                            else
+                              return null;
                           },
                           decoration: InputDecoration(
                             labelText: "Email",
-                            border:OutlineInputBorder(),
+                            border: OutlineInputBorder(),
                           ),
+                          keyboardType: TextInputType.emailAddress,
                         ),
                         SizedBox(height: 15,),
                         TextFormField(
-                          onChanged: (value){
-                            password=value;
+                          onChanged: (value) {
+                            password = value;
                           },
                           obscureText: true,
                           style: TextStyle(fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
 
                             labelText: "Password",
-                            border:OutlineInputBorder(),
+                            border: OutlineInputBorder(),
                           ),
                           validator:
-                              (value){
+                              (value) {
 
                           },
                         ),
 
                         SizedBox(height: 15,),
                         TextFormField(
-                         onChanged: (value){
-                           mobail=value;
-                         },
+                          onChanged: (value) {
+                            mobail = value;
+                          },
                           style: TextStyle(fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
 
                             labelText: "Enter mobile Number",
-                            border:OutlineInputBorder(),
+                            border: OutlineInputBorder(),
                           ),
-                          validator: (value){
-                            if(value==null && value.isEmpty)
-                            {
+                          validator: (value) {
+                            if (value == null && value.isEmpty) {
                               return 'Please Enter Mobile';
                             }
-                            else return null;
+                            else
+                              return null;
                           },
+                          keyboardType: TextInputType.number,
+                          maxLength: 10,
                         ),
                         SizedBox(height: 15,),
                         TextFormField(
-                          onChanged: (value){
-                            RoomNo=value;
+                          onChanged: (value) {
+                            RoomNo = value;
                           },
                           style: TextStyle(fontWeight: FontWeight.bold),
                           decoration: InputDecoration(
 
                             labelText: "Enter Room Number",
-                            border:OutlineInputBorder(),
+                            border: OutlineInputBorder(),
                           ),
-                          validator: (value){
-                            if(value==null && value.isEmpty)
-                            {
+                          validator: (value) {
+                            if (value == null && value.isEmpty) {
                               return 'Please Enter Mobile';
                             }
-                            else return null;
+                            else
+                              return null;
                           },
+                          keyboardType: TextInputType.number,
+                          maxLength: 3,
+                        ),
+                        SizedBox(height: 15,),
+                        TextFormField(
+                          onChanged: (value) {
+                            Branch = value;
+                          },
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+
+                            labelText: "Enter Branch",
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value == null && value.isEmpty) {
+                              return 'Please Branch';
+                            }
+                            else
+                              return null;
+                          },
+
                         ),
                         SizedBox(height: 15,),
                         ElevatedButton(
-                            onPressed: ()async{
+                            onPressed: () async {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Registering....")));
+                              final signedInUser = await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                  email: email, password: password);
 
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Registering....")));
-                                final signedInUser =await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                    email: email, password: password);
 
+                              if (signedInUser != null) {
+                                final user = await FirebaseAuth.instance
+                                    .currentUser();
+                                _realtime.child("Hostel").child("Users").child(
+                                    user.uid).set({
+                                  'email': email,
+                                  'Name': name,
+                                  'Branch':Branch,
+                                  'RoomNo': RoomNo,
+                                  'Mobail': mobail,
+                                  'status': 'IN'
+                                });
+                                save(email,user.uid,"Logedin");
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => HomePage()));
 
-                                    if (signedInUser!= null){
-                                            final user=await FirebaseAuth.instance.currentUser();
-                                               _realtime.child("Hostel").child("Users").child(user.uid).set({'email' : email, 'pass' : password,'RoomNo':RoomNo,'Mobail':mobail,'status':'IN'
-
-                                               });
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-                                            }
-
+                              }
                             },
-                            child:Text("Register")
+                            child: Text("Register")
                         ),
                         SizedBox(height: 10,),
                         ElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               Navigator.pop(context);
                             },
-                            child:Text("Already Have Account !")
+                            child: Text("Already Have Account !")
                         ),
                       ],
                     ),
@@ -154,5 +218,12 @@ class _SignUPPageState extends State<SignUPPage> {
       ),
 
     );
+  }
+
+  void save(String uuid,String email,String e) async {
+    await MyApp.init();
+    Brain.localStorage.setString('email', email);
+    Brain.localStorage.setString('uuid', uuid);
+    Brain.localStorage.setString('islogedin', e);
   }
 }

@@ -1,6 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_demo/Admin_Login.dart';
 import 'package:flutter_firebase_demo/HomePage.dart';
 import 'package:flutter_firebase_demo/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,54 +10,44 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'brain.dart';
 import 'main.dart';
 
-class LoginPage extends StatefulWidget {
+class AdminLoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _AdminLoginPageState createState() => _AdminLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AdminLoginPageState extends State<AdminLoginPage> {
   final _auth=FirebaseAuth.instance;
-final _from=GlobalKey<FormState>();
-var email;
-var password;
-
-  Map userData;
+  final _firestore=Firestore.instance;
+  final _from=GlobalKey<FormState>();
+  var email;
+  var password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){
-
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder:(context)=>AdminLoginPage()));
-        },
-        label: Text("ADMIN LOGIN"),
-        icon: Icon(Icons.login),
-      ),
       backgroundColor: Colors.deepPurple,
       appBar: AppBar(title: Text("LoginPage"),centerTitle: true,),
       body: SingleChildScrollView(
         reverse: true,
         child: Center(
-         child:Column(
+          child:Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 55,),
-              //Image.network("https://t3.ftcdn.net/jpg/01/22/71/96/240_F_122719641_V0yw2cAOrfxsON3HeWi2Sf4iVxhv27QO.jpg",),
+              Image.asset("assets/background/authback.jpg"),
               SizedBox(height: 25,),
-                  Form(
-                    key: _from,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)
-                      ),
-                     child: Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.center,
+              Form(
+                key: _from,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("Login",style: TextStyle(fontSize:40,color: Colors.green,fontWeight: FontWeight.bold),),
+                        Text("Admin Login",style: TextStyle(fontSize:40,color: Colors.green,fontWeight: FontWeight.bold),),
                         SizedBox(height: 25,),
                         TextFormField(
                           onChanged: (value){
@@ -102,34 +90,22 @@ var password;
                         ElevatedButton(
                             onPressed: (){
                               if((_from.currentState.validate())){
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(content: Text('Signing In')));
-                                 _auth.signInWithEmailAndPassword(email: email, password: password).then((SignInUser) async {
-                                   final user=await _auth.currentUser();
-                                   FirebaseDatabase.instance.reference().child("Hostel").child("Users").child(user.uid).once().then((DataSnapshot data){
-                                     userData=data.value;
-                                   });
-                                   await save(userData);
-                                   Navigator.pop(context);
-                                   Navigator.push(context, MaterialPageRoute(builder:(context)=>HomePage()));
-                                 });
 
+                                if(email=="gpj@gmail.com" && password=="asdfghjkl")
+                                  {
+                                    Navigator.pop(context);
+                                    Navigator.push(context, MaterialPageRoute(builder:(context)=>StudentRecord()));
+                                  }
                               }
                             },
                             child:Text("SignIn")
                         ),
                         SizedBox(height: 10,),
-                        ElevatedButton(
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder:(context)=>SignUPPage()));
-                            },
-                            child:Text("SignUp")
-                        ),
                       ],
                     ),
+                  ),
                 ),
               ),
-             ),
               // SizedBox(height:10,),
             ],
           ),
@@ -140,13 +116,5 @@ var password;
     );
   }
 
-  void save(Map user) async {
-    await MyApp.init();
-    print(user['status']);
-    Brain.localStorage.setString('email',user['email']);
-    Brain.localStorage.setString('name',user['Name']);
-    Brain.localStorage.setString('Branch',user['Branch']);
-    Brain.localStorage.setString('RoomNo',user['RoomNo']);
-    Brain.localStorage.setString('status',user['status']);
-  }
+ 
 }
