@@ -37,7 +37,7 @@ var password;
         icon: Icon(Icons.login),
       ),
       backgroundColor: Colors.deepPurple,
-      appBar: AppBar(title: Text("LoginPage"),centerTitle: true,),
+      appBar: AppBar(title: Text("Student LoginPage"),centerTitle: true,),
       body: SingleChildScrollView(
         reverse: true,
         child: Center(
@@ -46,7 +46,7 @@ var password;
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 55,),
-              //Image.network("https://t3.ftcdn.net/jpg/01/22/71/96/240_F_122719641_V0yw2cAOrfxsON3HeWi2Sf4iVxhv27QO.jpg",),
+              Image.asset("assets/logo/logo.png"),
               SizedBox(height: 25,),
                   Form(
                     key: _from,
